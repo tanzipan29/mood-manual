@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mood Manual</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+      overflow: hidden;
+      transition: background 0.8s ease-in-out;
+      background: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%);
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #333;
+      animation: fadeInDown 1s ease-in-out;
+    }
+    select {
+      margin-top: 20px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-family: 'Quicksand', sans-serif;
+      cursor: pointer;
+    }
+    button {
+      margin-top: 20px;
+      padding: 14px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #6366f1, #4338ca);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease, background 0.3s ease;
+      z-index: 2;
+    }
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #4f46e5, #3730a3);
+    }
+    .advice-box {
+      margin-top: 40px;
+      padding: 25px;
+      border-radius: 16px;
+      background: #ffffffdd;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      max-width: 400px;
+      text-align: center;
+      font-size: 1.3rem;
+      line-height: 1.6;
+      z-index: 2;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      animation-fill-mode: forwards;
+    }
+    .icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .confetti {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .confetti-piece {
+      width: 10px;
+      height: 10px;
+      background-color: #f87171;
+      position: absolute;
+      animation: fall 3s linear infinite;
+      border-radius: 50%;
+    }
+
+    /* General UI Animations */
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* General Advice Box Animations */
+    @keyframes slideInUp {
+      0% { opacity: 0; transform: translateY(50px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes bounceIn {
+      0%, 20%, 40%, 60%, 80%, 100% {
+        transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+      }
+      0% { opacity: 0; transform: scale3d(0.3, 0.3, 0.3); }
+      20% { transform: scale3d(1.1, 1.1, 1.1); }
+      40% { transform: scale3d(0.9, 0.9, 0.9); }
+      60% { opacity: 1; transform: scale3d(1.03, 1.03, 1.03); }
+      80% { transform: scale3d(0.97, 0.97, 0.97); }
+      100% { opacity: 1; transform: scale3d(1, 1, 1); }
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.5); }
+      70% { opacity: 1; transform: scale(1.1); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes rotateIn {
+      0% { opacity: 0; transform: rotate3d(0, 0, 1, -200deg); transform-origin: center center; }
+      100% { opacity: 1; transform: none; transform-origin: center center; }
+    }
+
+    .slide-in-up { animation: slideInUp 0.6s ease-out forwards; }
+    .fade-in-scale { animation: fadeInScale 0.6s ease-out forwards; }
+    .bounce-in { animation: bounceIn 0.8s forwards; }
+    .pop-in { animation: popIn 0.5s ease-out forwards; }
+    .rotate-in { animation: rotateIn 0.7s ease-out forwards; }
+
+
+    /* --- Custom Advice-Specific Animations Container --- */
+    #customAnimationContainer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* --- Individual Custom Animations --- */
+
+    /* TED Talk Logo Animation */
+    .ted-logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      animation: tedFadeIn 1.5s ease-out forwards;
+      animation-delay: 0.2s;
+    }
+    .ted-logo-box {
+      width: 60px;
+      height: 60px;
+      background-color: #E62B1E; /* TED red */
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      font-size: 2.2em;
+      letter-spacing: -2px;
+      overflow: hidden;
+      animation: tedBoxPop 0.8s ease-out forwards;
+    }
+    .ted-logo-text {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 1.2em;
+      color: #333;
+      margin-top: 10px;
+      opacity: 0;
+      animation: tedTextFadeIn 1s ease-out forwards;
+      animation-delay: 0.8s;
+    }
+    @keyframes tedFadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes tedBoxPop { 0% { transform: scale(0); border-radius: 50%; } 70% { transform: scale(1.1); border-radius: 10%; } 100% { transform: scale(1); border-radius: 8px; } }
+    @keyframes tedTextFadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+
+    /* Cookie Animation */
+    .cookie-animation {
+      font-size: 4em;
+      opacity: 0;
+      transform: scale(0) rotate(-180deg);
+      animation: cookieDrop 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    }
+    @keyframes cookieDrop {
+      0% { opacity: 0; transform: scale(0) rotate(-180deg) translateY(-100px); }
+      50% { opacity: 1; transform: scale(1.2) rotate(30deg) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
+    }
+
+    /* Hugs Animation */
+    .hugs-animation {
+      font-size: 5em;
+      opacity: 0;
+      transform: scale(0);
+      animation: hugSquish 0.8s ease-out forwards;
+    }
+    @keyframes hugSquish {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+      75% { transform: scale(0.9); }
+      100% { transform: scale(1); }
+    }
+
+    /* Groceries Animation */
+    .grocery-cart-animation {
+      font-size: 4em;
+      color: #4CAF50;
+      opacity: 0;
+      transform: translateX(-100px);
+      animation: cartRollIn 1s ease-out forwards;
+    }
+    @keyframes cartRollIn {
+      0% { opacity: 0; transform: translateX(-100px) rotate(-30deg); }
+      100% { opacity: 1; transform: translateX(0) rotate(0deg); }
+    }
+
+    /* Confetti Burst (for specific advice) */
+    .confetti-burst {
+        animation: none; /* Override default fall animation */
+        opacity: 0; /* Hidden by default */
+        position: absolute; /* Needed for transform */
+        top: 50%;
+        left: 50%;
+        width: 15px; /* Bigger pieces */
+        height: 15px;
+        transform-origin: center;
+        background-color: hsl(var(--hue), 70%, 60%);
+    }
+
+    @keyframes burst {
+        0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
+        20% { transform: translate(-50%, -50%) scale(1) rotate(180deg); opacity: 1; }
+        100% { transform: translate(-50%, -50%) scale(0) rotate(720deg); opacity: 0; }
+    }
+
+    /* Tick Mark Animation */
+    .tick-mark-animation {
+      font-size: 5em;
+      color: #28a745; /* Green color */
+      opacity: 0;
+      transform: scale(0);
+      animation: tickDraw 0.8s ease-out forwards;
+    }
+    @keyframes tickDraw {
+      0% { opacity: 0; transform: scale(0) rotate(-45deg); }
+      50% { opacity: 1; transform: scale(1.2) rotate(15deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+
+  </style>
+</head>
+<body>
+
+  <h1>Mood Manual</h1>
+
+  <select id="mood">
+    <option value="">Select a mood</option>
+    <option value="grumpy">😠 I’m grumpy for no reason</option>
+    <option value="anxious">💛 I’m anxious and need reassurance</option>
+    <option value="overwhelmed">📖 I’m overwhelmed and want space</option>
+    <option value="annoyed">😤 I’m annoyed at you but still love you</option>
+    <option value="bored">🎈 I’m bored and want fun</option>
+    <option value="sad">💧 I’m sad and don’t know why</option>
+    <option value="period">🧁 I’m on my period and everything is chaos</option>
+    <option value="fine">🔇 I’m fine (but clearly not)</option>
+    <option value="hyper">⚡ I’m hyper</option>
+    <option value="okay">🌼 I’m actually okay!</option>
+    <option value="miss">📞 I miss you</option>
+    <option value="insecure">🫣 I feel insecure</option>
+  </select>
+
+  <button onclick="showAdvice()">✨ Get Advice</button>
+
+  <div class="advice-box" id="adviceBox"></div>
+  <div class="confetti" id="confettiContainer"></div>
+  <div id="customAnimationContainer"></div>
+
+  <script>
+    const adviceData = {
+      grumpy: [
+        { text: "😠 Let me rant about nothing for 2 minutes. Nod a lot.", animation: "slide-in-up" },
+        { text: "🍛 Suggest a new food to try just for fun.", animation: "fade-in-scale" },
+        { text: "💧 Make sure I've had water in the last 24 hours.", animation: "slide-in-up" },
+        { text: "🚗 गेड़ी मारना is the solution.", animation: "pop-in" },
+        { text: "🎤 Let me monologue while you play along like it's a TED talk.", animation: "fade-in-scale", customAnimation: "tedTalk" },
+        { text: "🍿 Text: “Grump acknowledged. Snacks en route.”", animation: "slide-in-up" },
+        { text: "🙃 Ask “Can I annoy you until you laugh?” then proceed.", animation: "bounce-in" },
+        { text: "🧸 Tell me to go change into my comfiest oversized clothes — then hand me a cookie.", animation: "slide-in-up", customAnimation: "cookie" },
+        { text: "🚶 Suggest we walk aimlessly for 20 minutes and complain about things.", animation: "fade-in-scale" },
+        { text: "📖 Open my current book and ask about what I just read — even if you don’t care.", animation: "slide-in-up" },
+        { text: "🗣️ Let me overexplain why something tiny annoyed me today.", animation: "fade-in-scale" },
+        { text: "🛒 Take me to a grocery store.", animation: "pop-in", customAnimation: "groceryCart" },
+        { text: "😂 “Let’s pretend to be food critics and roast the fridge contents.”", animation: "bounce-in" },
+        { text: "🍪 Ask me to bake something absurdly indulgent, even if we don’t finish it.", animation: "fade-in-scale" }
+      ],
+      anxious: [
+        { text: "📞 Call me. Just say nice things and don’t fix anything.", animation: "slide-in-up" },
+        { text: "🤗 Tight hugs.", animation: "fade-in-scale", customAnimation: "hugs" },
+        { text: "😘 Forehead kisses. Minimum 2.", animation: "slide-in-up" },
+        { text: "🧠 Say “You’ve done this before. You’ve got it again.”", animation: "fade-in-scale" },
+        { text: "📚 Give examples of previous times I've done things well despite panic.", animation: "slide-in-up" },
+        { text: "🔁 Offer to reread an old message I sent you that made you feel loved — aloud.", animation: "fade-in-scale" },
+        { text: "📖 Open my current book and ask about what I just read — even if you don’t care.", animation: "slide-in-up" },
+        { text: "🧩 Give me one small, do-able task and help me start it.", animation: "fade-in-scale" },
+        { text: "✍️ Offer to write down everything stressing me out so it’s not in my head.", animation: "slide-in-up" },
+        { text: "✅ Remind me of one tiny thing that worked out last week.", animation: "fade-in-scale", customAnimation: "tickMark" },
+        { text: "🎙️ Make a “Things I’ve Conquered” voice note list for me.", animation: "slide-in-up" },
+        { text: "😌 Look at me and say, “Still proud of you. Even now.”", animation: "fade-in-scale" },
+        { text: "💬 Text: “Tell me everything you’re spiraling about. I’ll score them on a Dramatic Scale.”", animation: "slide-in-up" },
+        { text: "🗣️ Ask me: “What’s one thing you wish someone would say right now?” then say it.", animation: "fade-in-scale" },
+        { text: "🧃 Ask me what I’ve eaten today, not in a judgmental way — just gently.", animation: "slide-in-up" },
+        { text: "🧠 Ask me to list three things I can control today — then help me feel okay about the rest.", animation: "fade-in-scale" },
+        { text: "🔊 Send a voice note saying nothing except kind things. 1 minute max.", animation: "slide-in-up" }
+      ],
+      overwhelmed: [
+        { text: "🍱 Deliver food. No questions. No notifications.", animation: "slide-in-up" },
+        { text: "📱 Don’t call. Just send a chill voice note.", animation: "fade-in-scale" },
+        { text: "🎬 Set up a comfort movie for me (think cute romcom).", animation: "slide-in-up" },
+        { text: "📖 Give me a new book; make sure I don't feel guilty about taking a break from everything to read it", animation: "fade-in-scale" },
+        { text: "🧺 Handle one boring errand for me without telling me.", animation: "slide-in-up" },
+        { text: "🗓️ Ask “Want to plan a ‘do-nothing’ day with rules?”", animation: "fade-in-scale" },
+        { text: "📺 Suggest I rewatch a childhood comfort show with no judgment.", animation: "slide-in-up" },
+        { text: "🎧 Let me have a guilt-free hour with headphones and snacks.", animation: "fade-in-scale" },
+        { text: "🎲 Offer a “decision dice”: you write 6 break-friendly options, I roll and obey.", animation: "slide-in-up" },
+        { text: "✍🏽 Write a letter I don’t have to read right away — but can keep.", animation: "fade-in-scale" }
+      ],
+      annoyed: [
+        { text: "😂 Send me a meme that makes fun of you.", animation: "pop-in" },
+        { text: "🍕 Order food I like and say “I plead guilty.”", animation: "slide-in-up" },
+        { text: "😢 Send a photo of your sad face captioned “guilty idiot seeks forgiveness.”", animation: "bounce-in" },
+        { text: "🎶 Send a playlist called “Songs for when you’re mad at me.”", animation: "fade-in-scale" },
+        { text: "🍿 Say “I acknowledge the grudge. It is valid. Would you like snacks or revenge?”", animation: "slide-in-up" },
+        { text: "🗣️ Ask “Do you want a rant window or a no-talking zone?”", animation: "pop-in" },
+        { text: "🎧 Start a shared Spotify playlist called “Oops: My Redemption Arc” — add apology songs.", animation: "fade-in-scale" },
+        { text: "🤔 Ask: “Is this a ‘listen to me’ or a ‘leave me alone’ moment?”", animation: "slide-in-up" }
+      ],
+      bored: [
+        { text: "🍽️ Plan a spontaneous mini-date. It can be fake fancy.", animation: "pop-in" },
+        { text: "🌀 Spin me around like a dramatic movie.", animation: "rotate-in" },
+        { text: "🏆 Make up a fake award and present it to me dramatically.", animation: "bounce-in" },
+        { text: "🧀 Build me a snack tasting plate and act like it’s a Michelin review.", animation: "fade-in-scale" },
+        { text: "🛒 Take me to a new grocery store and say “pick something we’ve never tried.”", animation: "slide-in-up" },
+        { text: "🚗 Say “Let’s go somewhere pointless just for the vibe.”", animation: "fade-in-scale" },
+        { text: "🎭 Let me dress up absurdly for a normal errand. Take photos.", animation: "bounce-in" },
+        { text: "🤔 “Let’s take personality quizzes we know are fake.”", animation: "slide-in-up" },
+        { text: "🍳 Let's come up with a weird flavour combination and invent a dish out of it.", animation: "fade-in-scale" },
+        { text: "😈 Tell me a story where you’re the villain. Dramatic accents encouraged.", animation: "rotate-in" },
+        { text: "📝 Create a random challenge — e.g., only talk in rhymes for 5 minutes.", animation: "pop-in" },
+        { text: "📱 Send me a weird quiz or BuzzFeed list and take it together.", animation: "bounce-in" },
+        { text: "🎮 Find an online game we can both join for 15 minutes.", animation: "slide-in-up" },
+        { text: "🌍 GeoGuesser!", animation: "pop-in" },
+        { text: "🧑‍🍳 Ask “If we were on a cooking show and had 3 ingredients, what would we make?”", animation: "fade-in-scale" },
+        { text: "🎨 Say “Pick a color, a snack, and a vibe. I’ll create a plan.”", animation: "slide-in-up" },
+        { text: "🚫 Suggest a reverse bucket list — things we vow never to try.", animation: "fade-in-scale" },
+        { text: "🎭 Say “Let’s pretend to be strangers. What’s your backstory?”", animation: "bounce-in" }
+      ],
+      sad: [
+        { text: "🎶 Play “Tere Jeya Hor Disda” and hold me.", animation: "slide-in-up" },
+        { text: "🪑 Sit with me. No fixing. Just stay.", animation: "fade-in-scale" },
+        { text: "💬 Tell me something kind I once did and forgot about.", animation: "slide-in-up" },
+        { text: "☕ Bring me chai and let me sip in silence next to you.", animation: "fade-in-scale" },
+        { text: "🧵 Offer to sit while I stitch or scroll and just exist with me.", animation: "slide-in-up" },
+        { text: "🍞 Make me toast and tell me that counts as dinner.", animation: "fade-in-scale" },
+        { text: "🔊 Record a 1-minute story about something dumb that made you smile today.", animation: "slide-in-up" },
+        { text: "🤝 Tell me how I’ve helped you during your tough moments.", animation: "fade-in-scale" },
+        { text: "📝 Invite me to co-write a “complaint list” — no solutions, just venting.", animation: "slide-in-up" },
+        { text: "🌟 Offer to create a “Reasons You’re Great” list. Send one entry per hour.", animation: "fade-in-scale" }
+      ],
+      period: [
+        { text: "🍫 Feed me something indulgent. Bonus for chocolate + carbs.", animation: "slide-in-up" },
+        { text: "🙅‍♀️ Don’t suggest solutions. Just say “Ugh, that sucks.”", animation: "fade-in-scale" },
+        { text: "🛌 Blanket. Your face nearby.", animation: "slide-in-up" },
+        { text: "💆‍♀️ Back rub.", animation: "fade-in-scale" },
+        { text: "🧸 Tell me to go change into my comfiest oversized clothes — then hand me a cookie.", animation: "slide-in-up" },
+        { text: "📱 Text me “Name three things I want to eat right now. Go.” Then deliver one.", animation: "fade-in-scale" },
+        { text: "💪 Tell me three ways I am handling this better than I think.", animation: "slide-in-up" },
+        { text: "🎬 Watch a trash movie with me and pause every time I need a snack refill.", animation: "fade-in-scale" },
+        { text: "❓ Genuinely ask: “How can I make today suck a little less?”", animation: "slide-in-up" },
+        { text: "✨ Text: “This message is a soft pat on the head.”", animation: "fade-in-scale" },
+        { text: "💖 End the day with: “You made it. You were amazing.”", animation: "slide-in-up" }
+      ],
+      fine: [
+        { text: "😡 Text: “If you need to rage, I’ve cleared the next 10 mins.”", animation: "pop-in" },
+        { text: "🫂 Ask “Should I shut up and hug you or distract you?”", animation: "slide-in-up" },
+        { text: "🎁 Offer me five things: food, silence, blanket, hug, or meme.", animation: "fade-in-scale" },
+        { text: "🗣️ Offer: “Can I send you a voice note of me fake-firing your boss/friends/weather?”", animation: "slide-in-up" },
+        { text: "❓ Ask: “One-word vibe check?” and respond supportively to whatever.", animation: "fade-in-scale" },
+        { text: "📝 Say: “Tell me which part of today sucked. Bullet points welcome.”", animation: "slide-in-up" },
+        { text: "🤪 Tell me the weirdest thing you thought today.", animation: "bounce-in" },
+        { text: "💖 Text: “This sucks. You don’t. I’ll remind you as many times as needed.”", animation: "slide-in-up" },
+        { text: "📜 Offer: “Want a list of made-up reasons why this week should be illegal?”", animation: "fade-in-scale" },
+        { text: "💬 DM: “Do you want a compliment, a conspiracy theory, or a cutesy dialogue?”", animation: "slide-in-up" }
+      ],
+      hyper: [
+        { text: "💃 Dance with me! Must be loud Punjabi music.", animation: "bounce-in" },
+        { text: "📹 Record me being chaotic. I will thank you later.", animation: "pop-in" },
+        { text: "🏰 Build a pillow fort. No questions.", animation: "slide-in-up" },
+        { text: "✍️ Ask: “Want to co-write a trashy romance story in our notes app?”", animation: "fade-in-scale" },
+        { text: "🏆 Suggest a fake awards show — I name winners, you host.", animation: "bounce-in" },
+        { text: "👕 Let me pick your next outfit via emoji-only instructions.", animation: "pop-in" },
+        { text: "📝 Text: “Let’s write a 3-message story together. Your turn first.”", animation: "slide-in-up" }
+      ],
+      okay: [
+        { text: "💛 Tell me something you like about me today.", animation: "fade-in-scale" },
+        { text: "🌈 Ask me about something random I’m excited about lately.", animation: "slide-in-up" },
+        { text: "✋ Offer a high-five. No reason.", animation: "bounce-in" }
+      ],
+      miss: [
+        { text: "📞 Call me and talk about boring things like the day.", animation: "slide-in-up" },
+        { text: "📸 Send a photo or video just to say “look who misses you.”", animation: "fade-in-scale" },
+        { text: "🗓️ Schedule something we can look forward to, even if virtual.", animation: "slide-in-up" },
+        { text: "🧠 Tell me something you remember me doing — in weird detail.", animation: "fade-in-scale" },
+        { text: "💭 Share one random memory we haven’t talked about in a while", animation: "slide-in-up" },
+        { text: "💖 Tell me something you’re saving to do with me.", animation: "fade-in-scale" },
+        { text: "🔊 Voice note: “Hey. This is your reminder that I like you a lot.", animation: "slide-in-up" },
+        { text: "🗒️ Start writing a “next date” list and share your favorite idea.", animation: "fade-in-scale" },
+        { text: "🤝 Suggest a tiny daily check-in tradition (“one thing that made you smile today?”)", animation: "slide-in-up" }
+      ],
+      insecure: [
+        { text: "💬 Say what you love about me — out loud.", animation: "fade-in-scale" },
+        { text: "🪞 Compliment something I’ve been overthinking.", animation: "slide-in-up" },
+        { text: "🧘‍♀️ Reassure me of the obvious things. Gently.", animation: "fade-in-scale" },
+        { text: "🌟 Point out something small I did today that mattered.", animation: "slide-in-up" },
+        { text: "📸 Send me a screenshot of something I wrote, said, or did that made you proud.", animation: "fade-in-scale" },
+        { text: "📦 Write me a fake Amazon review: “★★★★★ – Best [Tanya] I’ve ever known.”", animation: "slide-in-up" },
+        { text: "🔒 Text: “Top 3 reasons I trust you. #1...”", animation: "fade-in-scale" },
+        { text: "🤳 Send a photo I hate of myself — and tell me what you see in it.", animation: "slide-in-up" },
+        { text: "✨ Tell me one thing about me that hasn’t changed — in a good way.", animation: "fade-in-scale" },
+        { text: "🔥 Send me photos of me you think are hot - and explain why", animation: "slide-in-up" },
+        { text: "✍️ Write me a haiku or limerick that makes fun of my imposter syndrome - can use GPT", animation: "fade-in-scale" },
+        { text: "👀 Notice something I’m avoiding, and offer: “Want to look at it together?”", animation: "slide-in-up" },
+        { text: "🔊 Record yourself saying nice things and remind me to play it when I need.", animation: "fade-in-scale" },
+        { text: "📞 Ask: “Want a compliments-only call?”", animation: "slide-in-up" }
+      ]
+    };
+
+    const moodBackgrounds = {
+      grumpy: "linear-gradient(120deg, #f6d365 0%, #fda085 100%)",
+      anxious: "linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)",
+      overwhelmed: "linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%)",
+      annoyed: "linear-gradient(120deg, #fbc2eb 0%, #a6c1ee 100%)",
+      bored: "linear-gradient(120deg, #fddb92 0%, #d1fdff 100%)",
+      sad: "linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%)",
+      period: "linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)",
+      fine: "linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%)",
+      hyper: "linear-gradient(120deg, #f5f7fa 0%, #c3cfe2 100%)",
+      okay: "linear-gradient(120deg, #c1dfc4 0%, #deecdd 100%)",
+      miss: "linear-gradient(120deg, #fdfcfb 0%, #e2d1c3 100%)",
+      insecure: "linear-gradient(120deg, #fa709a 0%, #fee140 100%)"
+    };
+
+    let lastAdvice = null;
+
+    // Map custom animation keys to their HTML generation functions
+    const customAnimations = {
+      tedTalk: function() {
+        return `
+          <div class="ted-logo-container">
+            <div class="ted-logo-box">T<span style="font-size: 0.6em; vertical-align: super;">E</span>D</div>
+            <div class="ted-logo-text">Ideas Worth Spreading</div>
+          </div>
+        `;
+      },
+      cookie: function() {
+        return `<span class="cookie-animation">🍪</span>`;
+      },
+      hugs: function() {
+        return `<span class="hugs-animation">🤗</span>`;
+      },
+      groceryCart: function() {
+        return `<span class="grocery-cart-animation">🛒</span>`;
+      },
+      tickMark: function() {
+        return `<span class="tick-mark-animation">✅</span>`;
+      }
+      // Add more custom animations here following the same pattern
+      // Each function should return the HTML for the animation.
+    };
+
+    function generateConfettiPieces(count, isCustomBurst = false) {
+      const confettiContainer = document.getElementById("confettiContainer");
+      if (!isCustomBurst) {
+          confettiContainer.innerHTML = ""; // Clear existing confetti for general use
+      }
+
+      const colors = ['#f87171', '#60a5fa', '#34d399', '#facc15', '#a78bfa'];
+      for (let i = 0; i < count; i++) {
+        const piece = document.createElement("div");
+        piece.className = isCustomBurst ? "confetti-piece confetti-burst" : "confetti-piece";
+        piece.style.left = Math.random() * 100 + "%";
+        piece.style.top = -20 - (Math.random() * 50) + 'px';
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = (2 + Math.random() * 2) + "s";
+        piece.style.animationDelay = (Math.random() * 0.5) + "s";
+        piece.style.width = piece.style.height = (6 + Math.random() * 6) + "px";
+
+        if (isCustomBurst) {
+            // Adjust position for burst, and apply burst animation
+            piece.style.left = '50%';
+            piece.style.top = '50%';
+            piece.style.animation = `burst ${0.8 + Math.random() * 0.4}s ease-out forwards`;
+            piece.style.animationDelay = `${Math.random() * 0.3}s`; // Stagger for burst effect
+            piece.style.setProperty('--hue', Math.random() * 360); // Use CSS variable for hue in burst
+            piece.style.width = piece.style.height = (10 + Math.random() * 10) + "px"; // Larger for burst
+        }
+        confettiContainer.appendChild(piece);
+      }
+    }
+
+
+    function showAdvice() {
+      const mood = document.getElementById("mood").value;
+      const adviceBox = document.getElementById("adviceBox");
+      const customAnimContainer = document.getElementById("customAnimationContainer");
+
+      // Clear previous custom animation
+      customAnimContainer.innerHTML = "";
+
+      if (!mood || !adviceData[mood]) {
+        adviceBox.innerHTML = "<span class='icon'>⚠️</span> Please select a mood first.";
+        adviceBox.className = "advice-box fade-in-scale";
+        generateConfettiPieces(0); // No confetti for error
+        return;
+      }
+
+      const options = adviceData[mood];
+      let newAdviceObj;
+      do {
+        newAdviceObj = options[Math.floor(Math.random() * options.length)];
+      } while (newAdviceObj === lastAdvice && options.length > 1);
+      lastAdvice = newAdviceObj;
+
+      document.body.style.background = moodBackgrounds[mood] || document.body.style.background;
+
+      // Clear previous general advice box animations and set new content
+      adviceBox.className = "advice-box";
+      adviceBox.innerHTML = `<span class='icon'>${newAdviceObj.text.slice(0, 2)}</span>${newAdviceObj.text.slice(2)}`;
+
+      // Apply the general advice box animation
+      setTimeout(() => {
+        adviceBox.classList.add(newAdviceObj.animation);
+      }, 50);
+
+      // Trigger custom animation if specified
+      if (newAdviceObj.customAnimation && customAnimations[newAdviceObj.customAnimation]) {
+        customAnimContainer.innerHTML = customAnimations[newAdviceObj.customAnimation]();
+      }
+
+      // Decide whether to show general confetti or custom burst
+      if (newAdviceObj.customAnimation === "confettiBurst") {
+          generateConfettiPieces(50, true); // Specific burst
+      } else {
+          generateConfettiPieces(40); // General falling confetti
+      }
+    }
+  </script>
+</body>
+</html>
