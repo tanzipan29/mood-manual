@@ -291,6 +291,7 @@
     <option value="okay">🌼 I’m actually okay!</option>
     <option value="miss">📞 I miss you</option>
     <option value="insecure">🫣 I feel insecure</option>
+    <option value="attention">🧲 I need attention but don’t want to ask</option>
   </select>
 
   <button onclick="showAdvice()">✨ Get Advice</button>
@@ -315,7 +316,8 @@
         { text: "🗣️ Let me overexplain why something tiny annoyed me today.", animation: "fade-in-scale" },
         { text: "🛒 Take me to a grocery store.", animation: "pop-in", customAnimation: "groceryCart" },
         { text: "😂 “Let’s pretend to be food critics and roast the fridge contents.”", animation: "bounce-in" },
-        { text: "🍪 Ask me to bake something absurdly indulgent, even if we don’t finish it.", animation: "fade-in-scale" }
+        { text: "🍪 Ask me to bake something absurdly indulgent, even if we don’t finish it.", animation: "fade-in-scale" },
+        { text: "🍞 Send me a snack recipe I can actually make today — even if it’s just fancy toast.", animation: "fade-in-scale" }
       ],
       anxious: [
         { text: "📞 Call me. Just say nice things and don’t fix anything.", animation: "slide-in-up" },
@@ -346,7 +348,10 @@
         { text: "📺 Suggest I rewatch a childhood comfort show with no judgment.", animation: "slide-in-up" },
         { text: "🎧 Let me have a guilt-free hour with headphones and snacks.", animation: "fade-in-scale" },
         { text: "🎲 Offer a “decision dice”: you write 6 break-friendly options, I roll and obey.", animation: "slide-in-up" },
-        { text: "✍🏽 Write a letter I don’t have to read right away — but can keep.", animation: "fade-in-scale" }
+        { text: "✍🏽 Write a letter I don’t have to read right away — but can keep.", animation: "fade-in-scale" },
+        { text: "🧩 Suggest I do a “no-thought zone” activity (e.g., coloring, small lego set).", animation: "slide-in-up" },
+        { text: "🎲 Offer a “decision dice”: you write 6 break-friendly options, I roll and do the one that comes up.", animation: "slide-in-up" }
+        
       ],
       annoyed: [
         { text: "😂 Send me a meme that makes fun of you.", animation: "pop-in" },
@@ -356,7 +361,9 @@
         { text: "🍿 Say “I acknowledge the grudge. It is valid. Would you like snacks or revenge?”", animation: "slide-in-up" },
         { text: "🗣️ Ask “Do you want a rant window or a no-talking zone?”", animation: "pop-in" },
         { text: "🎧 Start a shared Spotify playlist called “Oops: My Redemption Arc” — add apology songs.", animation: "fade-in-scale" },
-        { text: "🤔 Ask: “Is this a ‘listen to me’ or a ‘leave me alone’ moment?”", animation: "slide-in-up" }
+        { text: "🤔 Ask: “Is this a ‘listen to me’ or a ‘leave me alone’ moment?”", animation: "slide-in-up" },
+        { text: "🙇📸 Send a photo of your sad face captioned something like “guilty idiot seeks forgiveness.”", animation: "slide-in-up" }
+        
       ],
       bored: [
         { text: "🍽️ Plan a spontaneous mini-date. It can be fake fancy.", animation: "pop-in" },
@@ -388,7 +395,11 @@
         { text: "🔊 Record a 1-minute story about something dumb that made you smile today.", animation: "slide-in-up" },
         { text: "🤝 Tell me how I’ve helped you during your tough moments.", animation: "fade-in-scale" },
         { text: "📝 Invite me to co-write a “complaint list” — no solutions, just venting.", animation: "slide-in-up" },
-        { text: "🌟 Offer to create a “Reasons You’re Great” list. Send one entry per hour.", animation: "fade-in-scale" }
+        { text: "🌟 Offer to create a “Reasons You’re Great” list. Send one entry per hour.", animation: "fade-in-scale" },
+        { text: "🥐 Order me a pastry from somewhere new and say, “This is your sad croissant.”", animation: "slide-in-up" },
+        { text: "💪 Remind me something I used to struggle with that now feels easy.", animation: "slide-in-up" }
+        
+        
       ],
       period: [
         { text: "🍫 Feed me something indulgent. Bonus for chocolate + carbs.", animation: "slide-in-up" },
@@ -401,7 +412,11 @@
         { text: "🎬 Watch a trash movie with me and pause every time I need a snack refill.", animation: "fade-in-scale" },
         { text: "❓ Genuinely ask: “How can I make today suck a little less?”", animation: "slide-in-up" },
         { text: "✨ Text: “This message is a soft pat on the head.”", animation: "fade-in-scale" },
-        { text: "💖 End the day with: “You made it. You were amazing.”", animation: "slide-in-up" }
+        { text: "💖 End the day with: “You made it. You were amazing.”", animation: "slide-in-up" },
+        { text: "Virtual head pats. 🫶💻", animation: "slide-in-up" },
+        { text: "Make a calendar invite titled “Cry & Complain Time” and send it. 🗓️😭", animation: "fade-in-scale" },
+        { text: "Let me pick a short activity like embroidery or reading while you hang out on call. 🧵📚📞", animation: "slide-in-up" }
+        
       ],
       fine: [
         { text: "😡 Text: “If you need to rage, I’ve cleared the next 10 mins.”", animation: "pop-in" },
@@ -413,7 +428,9 @@
         { text: "🤪 Tell me the weirdest thing you thought today.", animation: "bounce-in" },
         { text: "💖 Text: “This sucks. You don’t. I’ll remind you as many times as needed.”", animation: "slide-in-up" },
         { text: "📜 Offer: “Want a list of made-up reasons why this week should be illegal?”", animation: "fade-in-scale" },
-        { text: "💬 DM: “Do you want a compliment, a conspiracy theory, or a cutesy dialogue?”", animation: "slide-in-up" }
+        { text: "💬 DM: “Do you want a compliment, a conspiracy theory, or a cutesy dialogue?”", animation: "slide-in-up" },
+        { text: "Set a 10-minute timer and say “Complain until it runs out. Then nap.” ⏱️🛏️🗣️", animation: "fade-in-scale" }
+        
       ],
       hyper: [
         { text: "💃 Dance with me! Must be loud Punjabi music.", animation: "bounce-in" },
@@ -427,7 +444,10 @@
       okay: [
         { text: "💛 Tell me something you like about me today.", animation: "fade-in-scale" },
         { text: "🌈 Ask me about something random I’m excited about lately.", animation: "slide-in-up" },
-        { text: "✋ Offer a high-five. No reason.", animation: "bounce-in" }
+        { text: "✋ Offer a high-five. No reason.", animation: "bounce-in" },
+        { text: " Ask “What’s your current very unnecessary obsession?” and let me rant. 💬👀", animation: "bounce-in" },
+        { text: "Suggest we make a joint Pinterest board for something dumb and delightful. 📌🎨", animation: "slide-in-up" }
+       
       ],
       miss: [
         { text: "📞 Call me and talk about boring things like the day.", animation: "slide-in-up" },
@@ -438,7 +458,11 @@
         { text: "💖 Tell me something you’re saving to do with me.", animation: "fade-in-scale" },
         { text: "🔊 Voice note: “Hey. This is your reminder that I like you a lot.", animation: "slide-in-up" },
         { text: "🗒️ Start writing a “next date” list and share your favorite idea.", animation: "fade-in-scale" },
-        { text: "🤝 Suggest a tiny daily check-in tradition (“one thing that made you smile today?”)", animation: "slide-in-up" }
+        { text: "🤝 Suggest a tiny daily check-in tradition (“one thing that made you smile today?”)", animation: "slide-in-up" },
+        { text: "Schedule a fake “walk together” — both walk and talk via call. 🚶‍♀️📞🚶‍♂️", animation: "fade-in-scale" },
+        { text: "Share a throwback photo of us and describe what you felt then. 📷💭", animation: "slide-in-up" },
+        { text: "Text me your current snack, outfit, or view and ask mine. 📸🍿👕", animation: "fade-in-scale" },
+        { text: "Want to online window-shop together and judge everything?” 🛍️👀💬", animation: "slide-in-up" }
       ],
       insecure: [
         { text: "💬 Say what you love about me — out loud.", animation: "fade-in-scale" },
@@ -454,7 +478,27 @@
         { text: "✍️ Write me a haiku or limerick that makes fun of my imposter syndrome - can use GPT", animation: "fade-in-scale" },
         { text: "👀 Notice something I’m avoiding, and offer: “Want to look at it together?”", animation: "slide-in-up" },
         { text: "🔊 Record yourself saying nice things and remind me to play it when I need.", animation: "fade-in-scale" },
-        { text: "📞 Ask: “Want a compliments-only call?”", animation: "slide-in-up" }
+        { text: "📞 Ask: “Want a compliments-only call?”", animation: "slide-in-up" },
+        { text: "Record a video describing something small you love about me — hair flip, laugh, typing sounds. 🎥🫶", animation: "fade-in-scale" },
+        { text: "Share something you’re insecure about and how I help with it. 🤝💬", animation: "slide-in-up" },
+        { text: "Ask me what I’m overthinking. Then refute each part like a lawyer who loves me. 🧠🧑‍⚖️❤️", animation: "fade-in-scale" },
+        { text: "I found this shirt/dress/jacket that screams you” (and send a link). 👗🔗", animation: "slide-in-up" },
+        { text: "Make a tiny slideshow of “reasons you’re objectively hot” and send it unprompted. 🖼️🔥🫠", animation: "fade-in-scale" }
+        
+      ],
+      attention: [
+        { text: "🧲 Send me a ‘Let’s design your dream meal’ prompt — appetizer, drink, setting, company.", animation: "slide-in-up" },
+        { text: "🍰 Text: ‘I need help ranking these desserts from least to most iconic.’", animation: "fade-in-scale" },
+        { text: "😼 Share a story where I was annoying or cute or both — and tell me you miss that version of me today.", animation: "slide-in-up" },
+        { text: "🍜 Start a fake argument like ‘What’s the superior snack: toast or noodles?’", animation: "pop-in" },
+        { text: "😏 Give me your three favorite traits about me, but lie on the first one so I have to guess.", animation: "fade-in-scale" },
+        { text: "🧠 You’re a tour guide giving strangers a walk-through of my brain. Go.", animation: "slide-in-up" },
+        { text: "🍛 Tell me about the best thing you’ve eaten this week and why I’d love/hate it.", animation: "fade-in-scale" },
+        { text: "👩‍❤️‍💋‍👨 What’s our fake couple restaurant called and what do we serve?", animation: "slide-in-up" },
+        { text: "📚 You’re in a cozy bookstore. What section do you go to, and what do I find you reading?", animation: "fade-in-scale" },
+        { text: "🛍️ Show me 3 dumb things you’d buy for me if we had no budget.", animation: "slide-in-up" },
+        { text: "🎬 Describe me as if I were a character in your favorite movie.", animation: "fade-in-scale" },
+        { text: "📱 Pretend you’re writing my dating app bio. What would it say?", animation: "slide-in-up" }
       ]
     };
 
@@ -470,7 +514,8 @@
       hyper: "linear-gradient(120deg, #f5f7fa 0%, #c3cfe2 100%)",
       okay: "linear-gradient(120deg, #c1dfc4 0%, #deecdd 100%)",
       miss: "linear-gradient(120deg, #fdfcfb 0%, #e2d1c3 100%)",
-      insecure: "linear-gradient(120deg, #fa709a 0%, #fee140 100%)"
+      insecure: "linear-gradient(120deg, #fa709a 0%, #fee140 100%)",
+      attention: "linear-gradient(120deg, #f6f0c4 0%, #f8d9e0 100%)"
     };
 
     let lastAdvice = null;
